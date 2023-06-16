@@ -1,31 +1,39 @@
 import * as vscode from 'vscode';
-import * as https from 'https';
+import * as path from 'path';
 
 export function activate(context: vscode.ExtensionContext) {
     let disposable = vscode.commands.registerCommand('extension.pixelart', () => {
-        // The GitHub API URL for the contents of your pixel art directory
-        const url = 'https://api.github.com/repos/yourusername/pixel-art-repo/contents';
+        const artFolder = vscode.Uri.file(
+            path.join(context.extensionPath, 'artsource')
+        );
+        vscode.workspace.fs.readDirectory(artFolder).then(files => {
+            const gifFiles = files.filter(([name, type]) => type === vscode.FileType.File && name.endsWith('.gif'));
+            if (gifFiles.length === 0) {
+                vscode.window.showInformationMessage('No pixel art GIFs found.');
+                return;
+            }
+            const randomIndex = Math.floor(Math.random() * gifFiles.length);
+            const randomGifFile = gifFiles[randomIndex];
+            const gifUri = vscode.Uri.joinPath(artFolder, randomGifFile[0]);
 
-        https.get(url, (res) => {
-            let body = '';
+            const jsonFileName = randomGifFile[0].replace('.gif', '.json');
+            const jsonUri = vscode.Uri.joinPath(artFolder, jsonFileName);
 
-            res.on('data', (chunk) => {
-                body += chunk;
+            vscode.workspace.fs.readFile(jsonUri).then(jsonData => {
+                const { author, source } = JSON.parse(jsonData.toString());
+                const message = `Pixel Art by ${author}\nSource: ${source}`;
+
+                vscode.window.showInformationMessage(message, {
+                    title: 'Open Image',
+                    action: 'openImage',
+                }).then(selection => {
+                    if (selection && selection.action === 'openImage') {
+                        vscode.env.openExternal(gifUri);
+                    }
+                });
             });
-
-            res.on('end', () => {
-                const files = JSON.parse(body);
-                const randomIndex = Math.floor(Math.random() * files.length);
-                const imageUrl = files[randomIndex].download_url;
-
-                vscode.window.showInformationMessage(`![Pixel Art](${imageUrl})`);
-            });
-        }).on('error', (error) => {
-            console.error(error.message);
         });
     });
 
     context.subscriptions.push(disposable);
 }
-
-export function deactivate() {}
