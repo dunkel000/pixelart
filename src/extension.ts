@@ -1,39 +1,91 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 
+function getRandomInt(max: number) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
 export function activate(context: vscode.ExtensionContext) {
-    let disposable = vscode.commands.registerCommand('extension.pixelart', () => {
-        const artFolder = vscode.Uri.file(
-            path.join(context.extensionPath, 'artsource')
+  const disposable = vscode.commands.registerCommand('extension.pixelart', () => {
+    const artsourcePath = vscode.Uri.file(
+      path.join(context.extensionPath, 'artsource')
+    );
+
+    console.log('artsourcePath:', artsourcePath.fsPath);
+
+    vscode.workspace.fs.readDirectory(artsourcePath).then((files) => {
+      const gifFiles = files.filter(([name, type]) => type === vscode.FileType.File && name.endsWith('.gif'));
+
+      console.log('gifFiles:', gifFiles);
+
+      if (gifFiles.length === 0) {
+        vscode.window.showErrorMessage('No pixel art GIF files found.');
+        return;
+      }
+
+      const randomIndex = getRandomInt(gifFiles.length);
+      const randomGif = gifFiles[randomIndex];
+
+      console.log('randomGif:', randomGif);
+
+      const jsonFile = vscode.Uri.file(
+        path.join(artsourcePath.fsPath, randomGif[0].replace('.gif', '.json'))
+      );
+
+      console.log('jsonFile:', jsonFile);
+
+      vscode.workspace.openTextDocument(jsonFile).then((jsonDocument) => {
+        console.log('jsonDocument:', jsonDocument);
+
+        const panel = vscode.window.createWebviewPanel(
+          'pixelArtPreview',
+          'Pixel Art Preview',
+          vscode.ViewColumn.Beside,
+          {
+            enableScripts: true,
+          }
         );
-        vscode.workspace.fs.readDirectory(artFolder).then(files => {
-            const gifFiles = files.filter(([name, type]) => type === vscode.FileType.File && name.endsWith('.gif'));
-            if (gifFiles.length === 0) {
-                vscode.window.showInformationMessage('No pixel art GIFs found.');
-                return;
+
+        const imageUrl = panel.webview.asWebviewUri(vscode.Uri.file(path.join(artsourcePath.fsPath, randomGif[0])));
+
+        const jsonContent = jsonDocument.getText();
+        const { author, source } = JSON.parse(jsonContent);
+
+        const htmlContent = `
+          <style>
+            body {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
             }
-            const randomIndex = Math.floor(Math.random() * gifFiles.length);
-            const randomGifFile = gifFiles[randomIndex];
-            const gifUri = vscode.Uri.joinPath(artFolder, randomGifFile[0]);
+            img {
+              max-width: 500px;
+              max-height: 500px;
+            }
+            p {
+              margin-top: 16px;
+              font-weight: bold;
+            }
+          </style>
+          <body>
+            <img src="${imageUrl}" alt="Pixel Art">
+            <p>Author: ${author}</p>
+            <p>Source: <a href="${source}">${source}</a></p>
+          </body>
+        `;
 
-            const jsonFileName = randomGifFile[0].replace('.gif', '.json');
-            const jsonUri = vscode.Uri.joinPath(artFolder, jsonFileName);
+        panel.webview.html = htmlContent;
 
-            vscode.workspace.fs.readFile(jsonUri).then(jsonData => {
-                const { author, source } = JSON.parse(jsonData.toString());
-                const message = `Pixel Art by ${author}\nSource: ${source}`;
-
-                vscode.window.showInformationMessage(message, {
-                    title: 'Open Image',
-                    action: 'openImage',
-                }).then(selection => {
-                    if (selection && selection.action === 'openImage') {
-                        vscode.env.openExternal(gifUri);
-                    }
-                });
-            });
+        // Close the JSON file tab
+        vscode.window.visibleTextEditors.forEach((editor) => {
+          if (editor.document.uri.fsPath === jsonFile.fsPath) {
+            vscode.commands.executeCommand('workbench.action.closeActiveEditor');
+          }
         });
+      });
     });
+  });
 
-    context.subscriptions.push(disposable);
+  context.subscriptions.push(disposable);
 }
