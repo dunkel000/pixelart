@@ -1,7 +1,7 @@
 {
   "name": "pixelart",
   "displayName": "pixelart",
-  "description": "Pixel Art on VS Codee",
+  "description": "A VS Code extension for displaying random pixel art.",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.79.0"
@@ -9,14 +9,15 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "pixelart.helloWorld",
-        "title": "Hello World"
-      }
+      "command": "extension.pixelart",
+      "title": "pixelart -> Display Random Pixel Art"
+    }
     ]
   },
   "scripts": {
