@@ -19,7 +19,7 @@ This extension does not contribute any specific settings.
 
 ## Known Issues
 
-There are no known issues at the moment. Please report any issues you encounter on the [GitHub repository](https://github.com/your-repository).
+There are no known issues at the moment. Please report any issues you encounter on the [GitHub repository](https://github.com/dunkel000/pixelart).
 
 ## Release Notes
 
