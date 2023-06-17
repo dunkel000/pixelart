@@ -31,16 +31,16 @@ There are no known issues at the moment. Please report any issues you encounter 
 
 ## Release Notes
 
-### 1.0.0
+### 0.0.1
 
 - Initial release of the Pixel Art Extension.
 - Generates a random pixel art GIF.
 - Displays the GIF along with author and source information.
 
-### 1.1.0
+### 0.0.2
 
 - Added clickable source link to directly visit the source website.
-
+- Update README and Documentation
 
 
 ## Contact
