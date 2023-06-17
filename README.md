@@ -38,21 +38,9 @@ There are no known issues at the moment. Please report any issues you encounter 
 
 This extension follows the guidelines and best practices recommended by Visual Studio Code. For more details, refer to the [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines).
 
-## Working with Markdown
-
-You can author and preview your Markdown README file using Visual Studio Code. Here are some useful editor shortcuts:
-
-- Split the editor: `Cmd+\` (macOS) or `Ctrl+\` (Windows/Linux).
-- Toggle preview: `Shift+Cmd+V` (macOS) or `Shift+Ctrl+V` (Windows/Linux).
-- Markdown snippets: `Ctrl+Space` (Windows/Linux/macOS).
-
-For more information:
-
-- [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-- [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
 
 ## Contact
 
-For any questions or inquiries, please contact [Your Name](mailto:your-email@example.com).
+For any questions or inquiries, please contact [Diego-Ignacio](mailto:dunkel000@gmail.com).
 
 **Enjoy pixel art!**
