@@ -3,6 +3,9 @@
   "displayName": "pixelart",
   "description": "A VS Code extension for displaying random pixel art.",
   "version": "0.0.1",
+  "repository": "https://github.com/dunkel000/pixelart",
+  "pricing": "Free",
+  "sponsor": {  "url": "https://github.com/sponsors/dunkel000/"},
   "engines": {
     "vscode": "^1.79.0"
   },
@@ -42,3 +45,4 @@
     "@vscode/test-electron": "^2.3.2"
   }
 }
+
