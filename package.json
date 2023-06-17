@@ -3,7 +3,7 @@
   "displayName": "pixelart",
   "description": "A VS Code extension for displaying random pixel art.",
   "icon": "images/logo.png",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "dunkel000",
   "repository": "https://github.com/dunkel000/pixelart",
   "pricing": "Free",
