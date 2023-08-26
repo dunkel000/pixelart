@@ -8,7 +8,10 @@ The Pixel Art Extension is a Visual Studio Code extension that allows you to pre
 - Displays the GIF along with author and source information in a webview panel.
 - Clickable source link to directly visit the source website.
 
+## See beautiful gif like this:
 ![](images/sample-gif.gif)
+
+## Sample:
 ![](images/sample-image1.png)
 ![](images/sample-image2.png)
 ![](images/sample-image3.png)
