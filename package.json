@@ -15,7 +15,10 @@
     "Other"
   ],
   "files": [
-    "images/sample-image.png",
+    "images/sample-gif.png",
+    "images/sample-image1.png",
+    "images/sample-image2.png",
+    "images/sample-image3.png",
     "images/logo.png"
   ],
   "activationEvents": [
